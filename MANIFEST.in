@@ -1,0 +1,18 @@
+include MANIFEST.in
+include requirements.txt
+include *.json
+include *.md
+include *.py
+include *.txt
+recursive-include transactions *.css
+recursive-include transactions *.csv
+recursive-include transactions *.html
+recursive-include transactions *.ico
+recursive-include transactions *.js
+recursive-include transactions *.json
+recursive-include transactions *.md
+recursive-include transactions *.png
+recursive-include transactions *.py
+recursive-include transactions *.svg
+recursive-include transactions *.txt
+recursive-exclude transactions *.pyc
