@@ -60,6 +60,6 @@ class CounterReceiver(Document):
 @frappe.whitelist()
 def get_godown_stock(item_name,item_code):
 	q = frappe.db.sql("select quantity from `tabGodown Stock` where item_name=%s and item_code=%s",(item_name,item_code))[0][0]
-	return (q)
-
+	if q:
+		return (q)
 

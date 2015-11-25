@@ -26,5 +26,30 @@ var g_order_id;
 			//cur_frm.set_value('waiter_name',doclist[3])
 		}
 	})
+	var l =doc.is_lodge_client;
+	if (l=='No')
+	{
+		cur_frm.toggle_enable('select_room',false);
+	}
+}
 
+cur_frm.cscript.is_lodge_client=function(doc,cdt,cdn)
+{
+	var l =doc.is_lodge_client;
+	if (l=='Yes')
+	{
+		cur_frm.toggle_enable('select_room',true);
+		frappe.call({
+			method:'lodge.lodge.doctype.check_out.check_out.get_customer_name',
+			args:{},
+			callback:function(r)
+			{
+				set_field_options('select_room',r.message)
+			}
+		})
+	}
+	else
+	{
+		cur_frm.toggle_enable('select_room',false)
+	}
 }

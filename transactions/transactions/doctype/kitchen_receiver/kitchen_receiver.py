@@ -15,12 +15,12 @@ class KitchenReceiver(Document):
 			item_code=ls[i].item_code
 			qnty=ls[i].quantity
 			#-------Godown Stock Updation-----------------
-			q1=frappe.db.sql("""select quantity from `tabGodown Stock` where item_name=%s and item_code=%s """,(item_name,item_code))
-			if q1:
-				query=frappe.db.sql("""update `tabGodown Stock` 
-				set quantity=quantity-%s 
-				where item_name=%s and item_code=%s""",(qnty,item_name,item_code))
-				frappe.msgprint("Godown Stock Updated")
+			#q1=frappe.db.sql("""select quantity from `tabGodown Stock` where item_name=%s and item_code=%s """,(item_name,item_code))
+			#if q1:
+			#	query=frappe.db.sql("""update `tabGodown Stock` 
+			#	set quantity=quantity-%s 
+			#	where item_name=%s and item_code=%s""",(qnty,item_name,item_code))
+			#	frappe.msgprint("Godown Stock Updated")
 			#-------Kitchen Stock Updation-----------------
 			q4=frappe.db.sql("""select quantity from `tabKitchen Stock` where item_name=%s and item_code=%s """,(item_name,item_code))
 			if q4:
@@ -50,13 +50,13 @@ class KitchenReceiver(Document):
 				where item_name=%s and item_code=%s""",(qnty,item_name,item_code))
 				frappe.msgprint("Kitchen Stock Updated")
 			#-------Godown Stock Updation-----------------
-			q2=frappe.db.sql("""select quantity from `tabGodown Stock` where item_name=%s and item_code=%s """,(item_name,item_code))
-			if q2:
-				query=frappe.db.sql("""update `tabGodown Stock` 
-				set quantity=quantity+%s 
-				where item_name=%s and item_code=%s""",(qnty,item_name,item_code))
-				frappe.msgprint("Godown Stock Updated")
+			#q2=frappe.db.sql("""select quantity from `tabGodown Stock` where item_name=%s and item_code=%s """,(item_name,item_code))
+			#if q2:
+			#	query=frappe.db.sql("""update `tabGodown Stock` 
+			#	set quantity=quantity+%s 
+			#	where item_name=%s and item_code=%s""",(qnty,item_name,item_code))
+			#	frappe.msgprint("Godown Stock Updated")
 @frappe.whitelist()
 def get_item_detail(itm):
-	q=frappe.db.sql("""select item_name,rate,item_code,uom from `tabItems` where name=%s and item_sub_group='Kitchen Items' and item_group='Purchase Items'""",itm)
+	q=frappe.db.sql("""select item_name,rate,item_code,uom from `tabItems` where name=%s and item_sub_group='Kitchen Items' and item_group='Sale Items'""",itm)
 	return (q)

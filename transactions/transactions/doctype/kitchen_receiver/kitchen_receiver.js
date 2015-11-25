@@ -13,15 +13,7 @@ cur_frm.cscript.select_item = function(doc,cdt,cdn)
 			refresh_field('kitchen_receiver_item')
 			var item_name = d.item_name;
 			var item_code = d.item_code;
-			frappe.call({
-				method:'transactions.transactions.doctype.counter_receiver.counter_receiver.get_godown_stock',
-				args:{item_name,item_code},
-				callback:function(r)
-				{
-					d.current_godown_stock = r.message;
-					refresh_field('kitchen_receiver_item');
-				}
-			})
+			
 		}
 	})
 
@@ -33,7 +25,7 @@ cur_frm.fields_dict["kitchen_receiver_item"].grid.get_field("select_item").get_q
 	return {
 		filters: {
 			'item_name': item1,
-			'item_group':'Purchase Items',
+			'item_group':'Sale Items',
 			'item_sub_group':'Kitchen Items'
 		}
 	}
