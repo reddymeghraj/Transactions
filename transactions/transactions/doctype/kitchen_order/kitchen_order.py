@@ -951,8 +951,11 @@ def get_counter_stock(item_id,item_code):
 		q = frappe.db.sql("""select i.rate from `tabItems` i where i.name= %s""",(item_id))[0]
 		return q
 	else:
-		q = frappe.db.sql("""select i.rate,c.quantity from `tabCounter Stock` c ,`tabItems` i where c.item_code=%s and i.name= %s""",(item_code,item_id))[0]
-		return q
+		q = frappe.db.sql("""select i.rate,c.quantity from `tabCounter Stock` c ,`tabItems` i where c.item_code=%s and i.name= %s""",(item_code,item_id))
+		if q:
+			return q[0]
+		else:
+			frappe.throw("No Conter Stock Available for Seletec Item")
 
 @frappe.whitelist()
 def insert_item(o,i,item_code,q,r,amt,d,tbl,w,o_sts):

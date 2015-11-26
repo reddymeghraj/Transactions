@@ -22,20 +22,20 @@ class KitchenReceiver(Document):
 			#	where item_name=%s and item_code=%s""",(qnty,item_name,item_code))
 			#	frappe.msgprint("Godown Stock Updated")
 			#-------Kitchen Stock Updation-----------------
-			q4=frappe.db.sql("""select quantity from `tabKitchen Stock` where item_name=%s and item_code=%s """,(item_name,item_code))
-			if q4:
-				query=frappe.db.sql("""update `tabKitchen Stock` 
-				set quantity=quantity+%s 
-				where item_name=%s and item_code=%s""",(qnty,item_name,item_code))
-				frappe.msgprint("Kitchen Stock Updated")
-			else:
-				q3=frappe.db.sql("""select max(cast(name as int)) from `tabKitchen Stock`""")[0][0]
-				if q3:
-					name=int(q3)+1;
-				else:
-					name=1	
-				q2=frappe.db.sql("""insert into `tabKitchen Stock` set name=%s, item_name=%s, item_code=%s, quantity=%s""",(name,item_name,item_code,qnty))
-				frappe.msgprint("New Entry addede in Kitchen Stock.")
+			#q4=frappe.db.sql("""select quantity from `tabKitchen Stock` where item_name=%s and item_code=%s """,(item_name,item_code))
+			#if q4:
+			#	query=frappe.db.sql("""update `tabKitchen Stock` 
+			#	set quantity=quantity+%s 
+			#	where item_name=%s and item_code=%s""",(qnty,item_name,item_code))
+			#	frappe.msgprint("Kitchen Stock Updated")
+			#else:
+			#	q3=frappe.db.sql("""select max(cast(name as int)) from `tabKitchen Stock`""")[0][0]
+			#	if q3:
+			#		name=int(q3)+1;
+			#	else:
+			#		name=1	
+			#	q2=frappe.db.sql("""insert into `tabKitchen Stock` set name=%s, item_name=%s, item_code=%s, quantity=%s""",(name,item_name,item_code,qnty))
+			#	frappe.msgprint("New Entry addede in Kitchen Stock.")
 
 	def on_cancel(self):
 		ls=self.kitchenreceiver_item
@@ -43,12 +43,12 @@ class KitchenReceiver(Document):
 			item_name=ls[i].item_name
 			item_code=ls[i].item_code
 			qnty=ls[i].quantity
-			q1=frappe.db.sql("""select quantity from `tabKitchen Stock` where item_name=%s and item_code=%s """,(item_name,item_code))
-			if q1:
-				query=frappe.db.sql("""update `tabKitchen Stock` 
-				set quantity=quantity-%s 
-				where item_name=%s and item_code=%s""",(qnty,item_name,item_code))
-				frappe.msgprint("Kitchen Stock Updated")
+			#q1=frappe.db.sql("""select quantity from `tabKitchen Stock` where item_name=%s and item_code=%s """,(item_name,item_code))
+			#if q1:
+			#	query=frappe.db.sql("""update `tabKitchen Stock` 
+			#	set quantity=quantity-%s 
+			#	where item_name=%s and item_code=%s""",(qnty,item_name,item_code))
+			#	frappe.msgprint("Kitchen Stock Updated")
 			#-------Godown Stock Updation-----------------
 			#q2=frappe.db.sql("""select quantity from `tabGodown Stock` where item_name=%s and item_code=%s """,(item_name,item_code))
 			#if q2:
