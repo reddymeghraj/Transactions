@@ -28,7 +28,7 @@ def show_table(d):
 	else:
 		str4="""
 			<input type="hidden" name="d" id="d" value="%s">
-			<button class="btn btn-success" tabindex="1" id="btnParcel" type="button" value="Parcel"
+			<button class="btn btn-info" tabindex="1" id="btnParcel" type="button" value="Parcel"
 			onclick=parcelFunction(this.value)
 			>Parcel</button>""" %(d)
 	for j in range(0, room_length):
@@ -44,7 +44,7 @@ def show_table(d):
 		else:
 			str3="""
 			<input type="hidden" name="d" id="d" value="%s">
-			<button class="btn btn-success" tabindex="1" id="btnL-%s" type="button" value=L-%s     
+			<button class="btn btn-warning" tabindex="1" id="btnL-%s" type="button" value=L-%s     
 			onclick=lodgeFunction(this.value)
 			>L-%s</button>""" %(d,l_rm[j][0],l_rm[j][0],l_rm[j][0])
 			l_tbl=l_tbl+str3
@@ -955,7 +955,7 @@ def get_counter_stock(item_id,item_code):
 		if q:
 			return q[0]
 		else:
-			frappe.throw("No Conter Stock Available for Seletec Item")
+			frappe.throw("No Counter Stock Available for Seletec Item")
 
 @frappe.whitelist()
 def insert_item(o,i,item_code,q,r,amt,d,tbl,w,o_sts):
