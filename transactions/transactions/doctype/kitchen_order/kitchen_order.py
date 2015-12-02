@@ -182,8 +182,8 @@ def show_table(d):
 		<input type="hidden" name="table" id="table_no">
 
 		<div>
-			Item: &nbsp;<select style="width:175px" tabindex="2" name="item" id="item" onblur="selectitem()"">"""
-
+			Item Code: &nbsp;<select style="width:175px" tabindex="2" name="item" id="item" onblur="selectitem()"">"""
+			#Item Name: &nbsp;<input type="text" readonly name="item_name" id="item_name">"""
 	opt=''
 	for i in range(len(q)):
 		options1="""<option value="%s.%s">%s</option>""" %(q[i][0],q[i][1],q[i][1])
@@ -197,9 +197,12 @@ def show_table(d):
   			<input type="text" readonly name="c_stock" id="c_stock">
   		</div><br>
   		<div>
-  			Rate: 
+  			Item Name: 
+  			<input type="text" readonly name="item_name" name="item_name" id="item_name">
+  			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  			Rate: &nbsp;
   			<input type="text" tabindex="4" name="rate"  id="rate" onblur="calculateamount()">
-  			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   			Amount: &nbsp;
   			<input type="text" tabindex="5" name="amount" id="amount">
   		</div><br>
@@ -212,7 +215,17 @@ def show_table(d):
 		</html>
 
 	"""
-	
+	script1 = """
+	<script language='VBScript'>
+	Sub Print()
+       OLECMDID_PRINT = 6
+       OLECMDEXECOPT_DONTPROMPTUSER = 2
+       OLECMDEXECOPT_PROMPTUSER = 1
+       call WB.ExecWB(OLECMDID_PRINT, OLECMDEXECOPT_DONTPROMPTUSER,1)
+	End Sub
+	document.write "<object ID='WB' WIDTH=0 HEIGHT=0 CLASSID='CLSID:8856F961-340A-11D0-A96B-00C04FD705A2'></object>"
+	</script>
+	"""
 	script="""
 		<html>
 			<head>
@@ -236,7 +249,7 @@ def show_table(d):
         					if (isNaN(col) || col == "") 
         					{
         						alert("Invalid Column");
-               					 return;
+               					return;
             				}
         					col = parseInt(col, 10);
         					col = col - 1;
@@ -334,14 +347,16 @@ def show_table(d):
             					}
 
          					}
-  							newWin= window.open("");
+         					newWin= window.open("");
   							//newWin.document.write(divToPrint.outerHTML);
   							newWin.document.write(divToPrint1.outerHTML);
- 							newWin.print();
-  							newWin.close();
+  							newWin.print();
+ 							//newWin.print();
+  							//newWin.close();
 						}
 					})
 				}
+				
 				function cancel_order()
 				{
 					var t = document.getElementById("table_no").value;
@@ -443,6 +458,14 @@ def show_table(d):
 					var itm = item.split(".");
 					var item_id = itm[0]
 					var item_code = itm[1]
+					frappe.call({
+						method:'transactions.transactions.doctype.kitchen_order.kitchen_order.get_item_name',
+						args:{item_id:item_id},
+						callback:function(r)
+						{
+							document.getElementById('item_name').value = r.message;
+						}
+					})
 					frappe.call({
 						method:'transactions.transactions.doctype.kitchen_order.kitchen_order.get_counter_stock',
 						args:{item_id:item_id,item_code:item_code},
@@ -587,8 +610,13 @@ def show_table(d):
 	""" 
 	com=html+str1+l_tbl+str4
 	f=form+opt+form1
-	com1=(script+f)
+	com1=(script+script1+f)
 	return (com,l,com1)
+
+@frappe.whitelist()
+def get_item_name(item_id):
+	q=frappe.db.sql("""select item_name from `tabItems` where name=%s""",(item_id))[0][0]
+	return q
 @frappe.whitelist()
 def current_lodge_table(date,o,tbl):
 	q0=frappe.db.sql("""select max(order_id) from `tabLodge Item` where table_no=%s and date=%s and order_status='Running' limit 1""",(tbl,date))[0][0]
